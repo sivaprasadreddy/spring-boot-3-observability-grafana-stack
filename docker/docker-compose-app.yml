@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   post-service:
-    image: post-service
+    image: sivaprasadreddy/techbuzz-post-service
     container_name: post-service
     ports:
       - "8080:8080"
@@ -13,16 +13,20 @@ services:
       MANAGEMENT_TRACING_ENABLED: 'true'
       MANAGEMENT_ZIPKIN_TRACING_ENDPOINT: http://tempo:9411
       TECHBUZZ_VOTES_API_URL: http://vote-service:8082
-      SPRING_DATASOURCE_URL: jdbc:postgresql://posts-db:5432/postgres
+      SPRING_DATASOURCE_URL: jdbc:postgresql://techbuzz-db:5432/posts
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
+    deploy:
+      resources:
+        limits:
+          memory: 700m
     labels:
       logging: "promtail"
-    volumes:
-      - ../logs/:/logs/
+    #volumes:
+    #  - ../logs/:/logs/
 
   vote-service:
-    image: vote-service
+    image: sivaprasadreddy/techbuzz-vote-service
     container_name: vote-service
     ports:
       - "8082:8082"
@@ -32,10 +36,14 @@ services:
       #LOGGING_FILE_NAME: /logs/vote-service-docker.log
       MANAGEMENT_TRACING_ENABLED: 'true'
       MANAGEMENT_ZIPKIN_TRACING_ENDPOINT: http://tempo:9411
-      SPRING_DATASOURCE_URL: jdbc:postgresql://votes-db:5432/postgres
+      SPRING_DATASOURCE_URL: jdbc:postgresql://techbuzz-db:5432/votes
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
+    deploy:
+      resources:
+        limits:
+          memory: 700m
     labels:
       logging: "promtail"
-    volumes:
-      - ../logs/:/logs/
+    #volumes:
+    #  - ../logs/:/logs/

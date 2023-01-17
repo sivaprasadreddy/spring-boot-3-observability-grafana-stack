@@ -16,6 +16,9 @@
 	<properties>
 		<java.version>17</java.version>
 		<testcontainers.version>1.17.6</testcontainers.version>
+		<jib-maven-plugin.version>3.3.1</jib-maven-plugin.version>
+		<dockerUserName>sivaprasadreddy</dockerUserName>
+		<dockerImageName>${dockerUserName}/techbuzz-${project.artifactId}</dockerImageName>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -144,6 +147,27 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>${jib-maven-plugin.version}</version>
+				<configuration>
+					<from>
+						<image>eclipse-temurin:19-jre-focal</image>
+					</from>
+					<to>
+						<image>${dockerImageName}</image>
+						<tags>
+							<tag>latest</tag>
+						</tags>
+					</to>
+					<container>
+						<ports>
+							<port>8082</port>
+						</ports>
+					</container>
 				</configuration>
 			</plugin>
 		</plugins>

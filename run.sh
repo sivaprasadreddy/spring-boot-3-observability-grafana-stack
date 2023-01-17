@@ -6,9 +6,18 @@ declare dc_app=${project_dir}/docker/docker-compose-app.yml
 declare dc_monitoring=${project_dir}/docker/docker-compose-grafana-stack.yml
 declare techbuzz="techbuzz"
 
+function build_image_jib() {
+    ./mvnw -pl post-service clean package -DskipTests jib:dockerBuild -Dimage=sivaprasadreddy/techbuzz-post-service
+    ./mvnw -pl vote-service clean package -DskipTests jib:dockerBuild -Dimage=sivaprasadreddy/techbuzz-vote-service
+}
+
+function build_apps_buildpacks() {
+    ./mvnw -pl post-service clean spring-boot:build-image -Dspring-boot.build-image.imageName=sivaprasadreddy/techbuzz-post-service
+    ./mvnw -pl vote-service clean spring-boot:build-image -Dspring-boot.build-image.imageName=sivaprasadreddy/techbuzz-vote-service
+}
+
 function build_apps() {
-    ./mvnw -pl post-service clean spring-boot:build-image -Dspring-boot.build-image.imageName=post-service
-    ./mvnw -pl vote-service clean spring-boot:build-image -Dspring-boot.build-image.imageName=vote-service
+    build_image_jib
 }
 
 function start() {
@@ -47,6 +56,7 @@ function start_grafana() {
     docker-compose -f "${dc_monitoring}" up --build --force-recreate -d
     docker-compose -f "${dc_monitoring}" logs -f
 }
+
 function stop_monitoring() {
     echo 'Stopping Grafana Observability Stack....'
     # shellcheck disable=SC2086
@@ -56,7 +66,7 @@ function stop_monitoring() {
 
 function start_all() {
     echo "Starting ${devzone} and dependencies...."
-    build_apps
+    #build_apps
     docker-compose -f "${dc_app_deps}" -f "${dc_app}" -f ${dc_monitoring} up --build --force-recreate -d
     docker-compose -f "${dc_app_deps}" -f "${dc_app}" -f ${dc_monitoring} logs -f
 }
