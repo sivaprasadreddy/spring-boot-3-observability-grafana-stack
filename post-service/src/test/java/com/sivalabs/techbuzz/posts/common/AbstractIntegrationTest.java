@@ -56,7 +56,7 @@ public abstract class AbstractIntegrationTest {
 		registry.add("spring.datasource.username", postgres::getUsername);
 		registry.add("spring.datasource.password", postgres::getPassword);
 
-		registry.add("techbuzz.vote-api-url", mockServer::getEndpoint);
+		registry.add("techbuzz.votes-api-url", mockServer::getEndpoint);
 		mockServerClient = new MockServerClient(mockServer.getHost(), mockServer.getServerPort());
 	}
 
