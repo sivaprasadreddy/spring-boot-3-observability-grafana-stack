@@ -1,0 +1,39 @@
+name: Build Post Service
+
+on:
+  push:
+    paths:
+      - post-service/**
+    branches:
+      - '**'
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./post-service
+      DOCKER_IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/techbuzz-post-service
+      DOCKER_NATIVE_IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/techbuzz-post-service-native
+    defaults:
+      run:
+        working-directory: ${{ env.working-directory }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Build with Maven
+        run: ./mvnw verify
+
+      - if: ${{ github.ref == 'refs/heads/main' }}
+        name: Build and Publish Docker Image
+        run: |
+          ./mvnw clean package -DskipTests jib:dockerBuild -Dimage=$DOCKER_IMAGE_NAME
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker push $DOCKER_IMAGE_NAME

@@ -192,7 +192,7 @@
 				<version>${jib-maven-plugin.version}</version>
 				<configuration>
 					<from>
-						<image>eclipse-temurin:19-jre-focal</image>
+						<image>eclipse-temurin:17-jre-focal</image>
 					</from>
 					<to>
 						<image>${dockerImageName}</image>
