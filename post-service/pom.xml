@@ -22,6 +22,7 @@
 		<vue.version>2.6.14</vue.version>
 		<fontawesome.version>6.2.0</fontawesome.version>
 		<jib-maven-plugin.version>3.3.1</jib-maven-plugin.version>
+		<mockserver-netty.version>5.13.2</mockserver-netty.version>
 		<dockerUserName>sivaprasadreddy</dockerUserName>
 		<dockerImageName>${dockerUserName}/techbuzz-${project.artifactId}</dockerImageName>
 	</properties>
@@ -130,6 +131,17 @@
 		<dependency>
 			<groupId>org.testcontainers</groupId>
 			<artifactId>postgresql</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>mockserver</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mock-server</groupId>
+			<artifactId>mockserver-netty</artifactId>
+			<version>${mockserver-netty.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

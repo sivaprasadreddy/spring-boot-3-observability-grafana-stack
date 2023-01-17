@@ -33,7 +33,7 @@ public abstract class AbstractIntegrationTest {
 	private Integer port;
 
 	@BeforeEach
-	void setUp() {
+	void setUpBase() {
 		RestAssured.baseURI = "http://localhost:" + port;
 	}
 
