@@ -12,5 +12,5 @@ public interface VoteRepository {
     List<Vote> getVotes(@RequestParam String postIds);
 
     @PostExchange("/api/votes")
-    void createVote(@RequestBody AddVoteRequest voteRequest);
+    Vote createVote(@RequestBody AddVoteRequest voteRequest);
 }

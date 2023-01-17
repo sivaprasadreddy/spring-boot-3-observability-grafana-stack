@@ -3,6 +3,7 @@ package com.sivalabs.techbuzz.posts.web.controllers;
 import com.sivalabs.techbuzz.posts.common.AbstractIntegrationTest;
 import com.sivalabs.techbuzz.posts.domain.PostModel;
 import io.restassured.http.ContentType;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -28,7 +29,7 @@ class PostControllerTests extends AbstractIntegrationTest {
 
     @Test
     void shouldAddVote() {
-        mockAddVote();
+        mockAddVote(1L, 4L, 1L);
         given()
                 .contentType(ContentType.JSON)
                 .body("""
@@ -41,6 +42,10 @@ class PostControllerTests extends AbstractIntegrationTest {
                 .post("/api/posts/1/votes")
                 .then()
                 .assertThat()
-                .statusCode(200);
+                .statusCode(200)
+                .body("postId", Matchers.equalTo(1))
+                .body("upVotes", Matchers.equalTo(4))
+                .body("downVotes", Matchers.equalTo(1))
+        ;
     }
 }

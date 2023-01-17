@@ -16,7 +16,7 @@ public class VoteService {
 
 	private final VoteRepository voteRepository;
 
-	public void addVote(CreateVoteRequest request) {
+	public Vote addVote(CreateVoteRequest request) {
 		Optional<Vote> voteOptional = voteRepository.findByPostId(request.postId());
 		if (voteOptional.isEmpty()) {
 			int upvote = 0, downvote = 0;
@@ -26,9 +26,9 @@ public class VoteService {
 				downvote++;
 			}
 			Vote vote = new Vote(null, request.postId(), upvote, downvote);
-			voteRepository.save(vote);
+			Vote savedVote = voteRepository.save(vote);
 			log.info("Vote saved successfully");
-			return;
+			return savedVote;
 		}
 		Vote existingVote = voteOptional.get();
 		if(request.value() > 0) {
@@ -38,6 +38,7 @@ public class VoteService {
 		}
 		voteRepository.save(existingVote);
 		log.info("Vote update successfully");
+		return existingVote;
 	}
 
 	public List<Vote> getVotes(List<Long> postIds) {

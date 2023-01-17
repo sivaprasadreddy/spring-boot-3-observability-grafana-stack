@@ -3,6 +3,7 @@ package com.sivalabs.techbuzz.posts.web.controllers;
 import com.sivalabs.techbuzz.posts.domain.AddVoteRequest;
 import com.sivalabs.techbuzz.posts.domain.PostModel;
 import com.sivalabs.techbuzz.posts.domain.PostService;
+import com.sivalabs.techbuzz.posts.domain.Vote;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,9 +29,9 @@ public class PostController {
 	}
 
 	@PostMapping("/{postId}/votes")
-	public void addVote(@PathVariable Long postId, @RequestBody AddVoteRequest request) {
+	public Vote addVote(@PathVariable Long postId, @RequestBody AddVoteRequest request) {
 		log.info("Adding vote for postId:{}, value: {}", postId, request.value());
 		var voteRequest = new AddVoteRequest(postId, request.value() > 0 ? 1 : -1);
-		postService.createVote(voteRequest);
+		return postService.createVote(voteRequest);
 	}
 }

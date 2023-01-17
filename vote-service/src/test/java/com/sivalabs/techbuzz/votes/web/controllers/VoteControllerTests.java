@@ -51,19 +51,48 @@ class VoteControllerTests extends AbstractIntegrationTest {
     }
 
     @Test
-    void shouldCreateVoteSuccessfully() {
-        given()
+    void shouldUpVoteSuccessfully() {
+        voteRepository.save(new Vote(null, 999L, 5, 2));
+        Vote voteResponse = given()
                 .contentType(ContentType.JSON)
                 .body("""
-                        {
-                            "postId": 2,
-                            "value": 1
-                        }
-                """)
+                                {
+                                    "postId": 999,
+                                    "value": 1
+                                }
+                        """)
                 .when()
                 .post("/api/votes")
                 .then()
                 .assertThat()
-                .statusCode(200);
+                .statusCode(200)
+                .extract().body().as(Vote.class);
+
+        assertThat(voteResponse.getPostId()).isEqualTo(999);
+        assertThat(voteResponse.getUpVotes()).isEqualTo(6);
+        assertThat(voteResponse.getDownVotes()).isEqualTo(2);
+    }
+
+    @Test
+    void shouldDownVoteSuccessfully() {
+        voteRepository.save(new Vote(null, 999L, 5, 2));
+        Vote voteResponse = given()
+                .contentType(ContentType.JSON)
+                .body("""
+                                {
+                                    "postId": 999,
+                                    "value": -1
+                                }
+                        """)
+                .when()
+                .post("/api/votes")
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .extract().body().as(Vote.class);
+
+        assertThat(voteResponse.getPostId()).isEqualTo(999);
+        assertThat(voteResponse.getUpVotes()).isEqualTo(5);
+        assertThat(voteResponse.getDownVotes()).isEqualTo(3);
     }
 }

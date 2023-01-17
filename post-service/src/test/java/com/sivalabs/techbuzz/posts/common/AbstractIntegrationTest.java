@@ -62,7 +62,11 @@ public abstract class AbstractIntegrationTest {
 
 	protected static void mockGetVotes() {
 		mockServerClient.when(
-						request().withMethod("GET").withPath("/api/votes?postIds=.*"))
+						request()
+								.withMethod("GET")
+								.withPath("/api/votes")
+								.withQueryStringParameter("postIds")
+				)
 				.respond(
 						response()
 								.withStatusCode(200)
@@ -86,7 +90,7 @@ public abstract class AbstractIntegrationTest {
 				);
 	}
 
-	protected static void mockAddVote() {
+	protected static void mockAddVote(Long postId, Long upVotes, Long downVotes) {
 		mockServerClient.when(
 						request().withMethod("POST").withPath("/api/votes"))
 				.respond(
@@ -96,11 +100,11 @@ public abstract class AbstractIntegrationTest {
 								.withBody(json(
 										"""
                                           {
-											"postId": 1,
-											"upVotes": 2,
-											"downVotes": 2
+											"postId": %d,
+											"upVotes": %d,
+											"downVotes": %d
                                           }
-                                          """
+                                          """.formatted(postId, upVotes, downVotes)
 								))
 				);
 	}

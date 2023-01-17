@@ -29,9 +29,9 @@ public class VoteController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.OK)
-	public void createVote(@Valid @RequestBody CreateVoteRequest request) {
+	public Vote createVote(@Valid @RequestBody CreateVoteRequest request) {
 		log.info("Saving vote for postId:{}, value: {}", request.postId(), request.value());
-		voteService.addVote(request);
+		return voteService.addVote(request);
 	}
 
 	@GetMapping

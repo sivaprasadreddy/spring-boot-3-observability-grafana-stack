@@ -31,9 +31,9 @@ public class PostService {
 				}).toList();
 	}
 
-	public void createVote(AddVoteRequest voteRequest) {
-		//voteServiceClient.createVote(voteRequest);
-		voteRepository.createVote(voteRequest);
+	public Vote createVote(AddVoteRequest voteRequest) {
+		//return voteServiceClient.createVote(voteRequest);
+		return voteRepository.createVote(voteRequest);
 	}
 
 	private List<Vote> getVotes(List<Long> postIds) {
