@@ -1,0 +1,14 @@
+body {
+    background-color: #FBFBFB;
+}
+#app {
+    margin-top: 70px;
+}
+
+.post a:link {
+    text-decoration: none;
+}
+
+.category-card  {
+    text-decoration: none;
+}
