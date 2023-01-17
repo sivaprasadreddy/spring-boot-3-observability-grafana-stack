@@ -17,19 +17,18 @@ public class AppConfig {
     private final ApplicationProperties properties;
 
     @Bean
-    public VoteRepository voteRepository() {
-        WebClient client = WebClient.builder().baseUrl(properties.votesApiUrl()).build();
-        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builder(WebClientAdapter.forClient(client)).build();
-        return factory.createClient(VoteRepository.class);
-    }
-
-    @Bean
     RestTemplate restTemplate(RestTemplateBuilder builder) {
         return builder.build();
     }
 
     @Bean
     WebClient webClient(WebClient.Builder builder) {
-        return builder.build();
+        return builder.baseUrl(properties.votesApiUrl()).build();
+    }
+
+    @Bean
+    public VoteRepository voteRepository(WebClient webClient) {
+        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builder(WebClientAdapter.forClient(webClient)).build();
+        return factory.createClient(VoteRepository.class);
     }
 }

@@ -32,7 +32,8 @@ public class PostService {
 	}
 
 	public void createVote(AddVoteRequest voteRequest) {
-		voteServiceClient.createVote(voteRequest);
+		//voteServiceClient.createVote(voteRequest);
+		voteRepository.createVote(voteRequest);
 	}
 
 	private List<Vote> getVotes(List<Long> postIds) {
@@ -42,7 +43,8 @@ public class PostService {
 		try {
 			String postIdsCsv = postIds.stream().map(String::valueOf).collect(Collectors.joining(","));
 			log.info("Fetching votes for postIds: {}", postIdsCsv);
-			return voteServiceClient.getVotes(postIdsCsv);
+			//return voteServiceClient.getVotes(postIdsCsv);
+			return voteRepository.getVotes(postIdsCsv);
 		} catch (Exception e) {
 			log.error("Failed to get votes", e);
 			return List.of();

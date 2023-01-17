@@ -54,9 +54,9 @@ datasources:
       tracesToLogs:
         datasourceUid: 'loki-sivalabs'
         tags: [ 'instance', 'pod', 'namespace', 'hostname' ]
-        mappedTags: [ { key: 'service.name', value: 'application' }  ]
+        mappedTags: [ { key: 'service.name', value: 'container' }  ]
         mapTagNamesEnabled: true
-        spanStartTimeShift: '1h'
+        spanStartTimeShift: '-1h'
         spanEndTimeShift: '1h'
         filterByTraceID: true
         filterBySpanID: false
