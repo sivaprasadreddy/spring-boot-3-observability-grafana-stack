@@ -85,4 +85,23 @@ public abstract class AbstractIntegrationTest {
 								))
 				);
 	}
+
+	protected static void mockAddVote() {
+		mockServerClient.when(
+						request().withMethod("POST").withPath("/api/votes"))
+				.respond(
+						response()
+								.withStatusCode(200)
+								.withHeaders(new Header("Content-Type", "application/json; charset=utf-8"))
+								.withBody(json(
+										"""
+                                          {
+											"postId": 1,
+											"upVotes": 2,
+											"downVotes": 2
+                                          }
+                                          """
+								))
+				);
+	}
 }

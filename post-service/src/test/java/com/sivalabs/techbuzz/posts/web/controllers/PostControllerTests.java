@@ -28,6 +28,7 @@ class PostControllerTests extends AbstractIntegrationTest {
 
     @Test
     void shouldAddVote() {
+        mockAddVote();
         given()
                 .contentType(ContentType.JSON)
                 .body("""

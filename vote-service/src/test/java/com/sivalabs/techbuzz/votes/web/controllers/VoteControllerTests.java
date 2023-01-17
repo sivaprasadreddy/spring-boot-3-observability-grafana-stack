@@ -43,7 +43,7 @@ class VoteControllerTests extends AbstractIntegrationTest {
 
         RecursiveComparisonConfiguration configuration = RecursiveComparisonConfiguration
                 .builder()
-                .withIgnoredFields("id")
+                .withComparedFields("postId", "upVotes", "downVotes")
                 .build();
         assertThat(votesResponse).usingRecursiveFieldByFieldElementComparator(configuration)
                 //.contains(votes.get(0), votes.get(1))
