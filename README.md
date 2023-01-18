@@ -1,4 +1,4 @@
-# TechBuzz using SpringBoot Microservices
+# SpringBoot 3 Observability using Grafana Stack
 
 ## How to run?
 

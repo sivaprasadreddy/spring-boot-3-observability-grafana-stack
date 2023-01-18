@@ -46,8 +46,7 @@ function start_app() {
 
 function stop_app() {
     echo 'Stopping all....'
-    # shellcheck disable=SC2086
-    docker-compose -f ${dc_app_deps} -f ${dc_app} stop
+    docker-compose -f "${dc_app_deps}" -f "${dc_app}" stop
     docker-compose -f "${dc_app_deps}" -f "${dc_app}" rm -f
 }
 
@@ -59,23 +58,21 @@ function start_grafana() {
 
 function stop_monitoring() {
     echo 'Stopping Grafana Observability Stack....'
-    # shellcheck disable=SC2086
-    docker-compose -f ${dc_monitoring} stop
+    docker-compose -f "${dc_monitoring}" stop
     docker-compose -f "${dc_monitoring}" rm -f
 }
 
 function start_all() {
-    echo "Starting ${devzone} and dependencies...."
+    echo "Starting ${techbuzz} and dependencies...."
     #build_apps
-    docker-compose -f "${dc_app_deps}" -f "${dc_app}" -f ${dc_monitoring} up --build --force-recreate -d
-    docker-compose -f "${dc_app_deps}" -f "${dc_app}" -f ${dc_monitoring} logs -f
+    docker-compose -f "${dc_app_deps}" -f "${dc_app}" -f "${dc_monitoring}" up --build --force-recreate -d
+    docker-compose -f "${dc_app_deps}" -f "${dc_app}" -f "${dc_monitoring}" logs -f
 }
 
 function stop_all() {
     echo 'Stopping all....'
-    # shellcheck disable=SC2086
-    docker-compose -f ${dc_app_deps} -f ${dc_app} -f ${dc_monitoring} stop
-    docker-compose -f "${dc_app_deps}" -f "${dc_app}" -f ${dc_monitoring} rm -f
+    docker-compose -f "${dc_app_deps}" -f "${dc_app}" -f "${dc_monitoring}" stop
+    docker-compose -f "${dc_app_deps}" -f "${dc_app}" -f "${dc_monitoring}" rm -f
 }
 
 action="start"
